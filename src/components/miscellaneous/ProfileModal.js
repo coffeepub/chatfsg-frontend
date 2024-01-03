@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   FormControl,
   FormLabel,
@@ -6,8 +6,8 @@ import {
   Input,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { ViewIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react';
+import { ViewIcon } from '@chakra-ui/icons';
 import {
   Modal,
   ModalOverlay,
@@ -16,14 +16,17 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { Image, Text } from "@chakra-ui/react";
-import axios from "axios";
-import { baseUrl } from "../../config";
-import { useNavigate } from "react-router-dom";
+} from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
+import { Image, Text } from '@chakra-ui/react';
+import axios from 'axios';
+import { baseUrl } from '../../config';
+import { useNavigate } from 'react-router-dom';
 
-const ProfileModal = ({ users, children }) => {
+const ProfileModal = ({ users, children, loggedInUser }) => {
+  //your user id, and this person id
+  console.log('users check this:', users._id, loggedInUser);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -46,44 +49,44 @@ const ProfileModal = ({ users, children }) => {
     setLoading(true);
     if (pics === undefined) {
       toast({
-        title: "Please Select an Image!",
-        status: "warning",
+        title: 'Please Select an Image!',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       return;
     }
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
       const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "fsg_image");
-      data.append("cloud_name", "die8agkfv");
+      data.append('file', pics);
+      data.append('upload_preset', 'fsg_image');
+      data.append('cloud_name', 'die8agkfv');
       axios
-        .post("https://api.cloudinary.com/v1_1/die8agkfv/image/upload", data)
+        .post('https://api.cloudinary.com/v1_1/die8agkfv/image/upload', data)
         .then((response) => {
-          console.log("Cloudinary response:", response);
+          console.log('Cloudinary response:', response);
           setPic(response.data.url.toString());
           setLoading(false);
           toast({
-            title: "Image uploaded successfully!",
-            status: "success",
+            title: 'Image uploaded successfully!',
+            status: 'success',
             duration: 5000,
             isClosable: true,
-            position: "bottom",
+            position: 'bottom',
           });
         })
         .catch((error) => {
-          console.log("Cloudinary error:", error);
+          console.log('Cloudinary error:', error);
           setLoading(false);
         });
     } else {
       toast({
-        title: "Please Select an Image!",
-        status: "warning",
+        title: 'Please Select an Image!',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
       return;
@@ -94,11 +97,11 @@ const ProfileModal = ({ users, children }) => {
     setLoading(true);
     if (!name || !email) {
       toast({
-        title: "Please Fill all the Fields!",
-        status: "warning",
+        title: 'Please Fill all the Fields!',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
       return;
@@ -107,23 +110,23 @@ const ProfileModal = ({ users, children }) => {
     try {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${users.token}`,
         },
       };
       const url = baseUrl + `/api/user/update`;
-      console.log("url", url);
+      console.log('url', url);
       const { data } = await axios.post(url, { name, email, pic }, config);
       toast({
-        title: "Changes Successfully saved!",
-        status: "success",
+        title: 'Changes Successfully saved!',
+        status: 'success',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
-      console.log("data", data);
+      console.log('data', data);
       localStorage.setItem(
-        "userInfo",
+        'userInfo',
         JSON.stringify({
           ...users,
           name: data.name,
@@ -133,15 +136,15 @@ const ProfileModal = ({ users, children }) => {
       );
 
       setLoading(false);
-      navigate("/chats");
+      navigate('/chats');
     } catch (error) {
       console.log(error);
       toast({
-        title: "Error Occured!",
-        status: "error",
+        title: 'Error Occured!',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
     }
@@ -153,7 +156,7 @@ const ProfileModal = ({ users, children }) => {
         <span onClick={onOpen}>{children}</span>
       ) : (
         <IconButton
-          display={{ base: "flex" }}
+          display={{ base: 'flex' }}
           icon={<ViewIcon />}
           onClick={onOpen}
         />
@@ -187,8 +190,8 @@ const ProfileModal = ({ users, children }) => {
                 />
 
                 <Text
-                  fontSize={{ base: "28px", md: "30px" }}
-                  fontFamily={"Work sans"}
+                  fontSize={{ base: '28px', md: '30px' }}
+                  fontFamily={'Work sans'}
                   margin="10px"
                 >
                   Email: {users.email}
@@ -235,7 +238,7 @@ const ProfileModal = ({ users, children }) => {
           </ModalBody>
 
           <ModalFooter>
-            {isEditMode && (
+            {isEditMode && users._id === loggedInUser && (
               <Button
                 colorScheme="blue"
                 m={2}
@@ -246,7 +249,7 @@ const ProfileModal = ({ users, children }) => {
               </Button>
             )}
 
-            {!isEditMode && (
+            {!isEditMode && users._id === loggedInUser && (
               <Button colorScheme="blue" m={2} onClick={setupEditMode}>
                 Edit Profile
               </Button>

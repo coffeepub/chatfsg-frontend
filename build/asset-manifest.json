@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.01bceb2a.css",
-    "main.js": "/static/js/main.fe2f7266.js",
-    "static/media/background_Tech.png": "/static/media/background_Tech.a16ed109ba5c5636d0aa.png",
+    "main.css": "/static/css/main.599f0168.css",
+    "main.js": "/static/js/main.780d6c12.js",
+    "static/media/V2_floridastateguardfb.png": "/static/media/V2_floridastateguardfb.40371030aa8fa07f48df.png",
     "index.html": "/index.html",
-    "main.01bceb2a.css.map": "/static/css/main.01bceb2a.css.map",
-    "main.fe2f7266.js.map": "/static/js/main.fe2f7266.js.map"
+    "main.599f0168.css.map": "/static/css/main.599f0168.css.map",
+    "main.780d6c12.js.map": "/static/js/main.780d6c12.js.map"
   },
   "entrypoints": [
-    "static/css/main.01bceb2a.css",
-    "static/js/main.fe2f7266.js"
+    "static/css/main.599f0168.css",
+    "static/js/main.780d6c12.js"
   ]
 }
