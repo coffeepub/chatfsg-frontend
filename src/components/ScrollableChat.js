@@ -1,25 +1,25 @@
-import { Divider, Tooltip } from "@chakra-ui/react";
-import React from "react";
-import ScrollableFeed from "react-scrollable-feed";
-import { isSameSender } from "../config/ChatLogics";
-import { ChatState } from "../Context/ChatProvider";
-import { isLastMessage } from "../config/ChatLogics";
-import { Avatar } from "@chakra-ui/avatar";
-import Lottie from "lottie-react";
+import { Divider, Tooltip } from '@chakra-ui/react';
+import React from 'react';
+import ScrollableFeed from 'react-scrollable-feed';
+import { isSameSender } from '../config/ChatLogics';
+import { ChatState } from '../Context/ChatProvider';
+import { isLastMessage } from '../config/ChatLogics';
+import { Avatar } from '@chakra-ui/avatar';
+import Lottie from 'lottie-react';
 
-import animationData from "../animations/typing.json";
+import animationData from '../animations/typing.json';
 
 const ScrollableChat = ({ messages, isTyping }) => {
   const { users } = ChatState();
 
-  console.log(isTyping, "typing....");
+  //console.log(isTyping, "typing....");
 
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
   };
 
@@ -29,12 +29,12 @@ const ScrollableChat = ({ messages, isTyping }) => {
         messages.map((m, i) => (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               flexDirection: isSameSender(m, i, users._id)
-                ? "row-reverse"
-                : "row",
+                ? 'row-reverse'
+                : 'row',
             }}
-            key={m.id}
+            key={`unique${i}`}
           >
             <Tooltip label={m.sender.name} placement="bottom-start" hasArrow>
               <Avatar
@@ -49,12 +49,12 @@ const ScrollableChat = ({ messages, isTyping }) => {
             <span
               style={{
                 backgroundColor: `${
-                  m.sender._id === users._id ? "#BEE3F8" : "#B9F5D0"
+                  m.sender._id === users._id ? '#BEE3F8' : '#B9F5D0'
                 }`,
-                borderRadius: "20px",
-                padding: "5px 15px",
-                maxWidth: "75%",
-                margin: "5px 0",
+                borderRadius: '20px',
+                padding: '5px 15px',
+                maxWidth: '75%',
+                margin: '5px 0',
               }}
             >
               {m.content}
@@ -69,9 +69,9 @@ const ScrollableChat = ({ messages, isTyping }) => {
             loop={true}
             option={defaultOptions}
             style={{
-              marginLeft: "10px",
-              width: "70px",
-              height: "70px",
+              marginLeft: '10px',
+              width: '70px',
+              height: '70px',
             }}
           />
         </div>

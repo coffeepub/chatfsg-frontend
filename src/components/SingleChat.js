@@ -21,6 +21,7 @@ import UpdateGroupChatModal from './miscellaneous/UpdateGroupChatModal';
 import './styles.css';
 import { set } from 'mongoose';
 import bing from '../audio/bing.mp3';
+import EmojiPicker from 'emoji-picker-react';
 
 var socket, selectedChatCompare;
 
@@ -95,6 +96,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
         setNewMessage('');
+        console.log('clear messages');
         const { data } = await axios.post(
           baseUrl + `/api/messages`,
           {
@@ -148,6 +150,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   });
 
   const typingHandler = (e) => {
+    console.log('typingHandler:', newMessage, e.target.value);
     setNewMessage(e.target.value);
 
     // Typing Indicator Logic
@@ -216,6 +219,22 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 */
+
+  const emojiHandler = (e) => {
+    //console.log('inspect', event, emojiObject);
+    console.log('newMessage:', newMessage);
+    let sym = e.unified.split('-');
+    let codesArray = [];
+    sym.forEach((el) => codesArray.push('0x' + el));
+    let emoji = String.fromCodePoint(...codesArray);
+    setNewMessage(newMessage + emoji);
+
+    /*
+    console.log('newMessage:', newMessage);
+    console.log('output:', event.emoji, emojiObject);
+    setNewMessage(`${newMessage} ${event.emoji}`);*/
+  };
+
   return (
     <>
       {selectedChat ? (
@@ -294,6 +313,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 value={newMessage}
               />
             </FormControl>
+            <EmojiPicker searchDisabled={true} onEmojiClick={emojiHandler} />
           </Box>
         </>
       ) : (

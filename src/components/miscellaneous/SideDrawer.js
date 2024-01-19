@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -12,27 +12,29 @@ import {
   DrawerBody,
   Input,
   useToast,
-} from "@chakra-ui/react";
-import { Tooltip, Menu, MenuButton, MenuDivider } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import { ChatState } from "../../Context/ChatProvider";
-import ProfileModal from "./ProfileModal";
-import { useNavigate } from "react-router-dom";
-import { useDisclosure } from "@chakra-ui/react";
-import axios from "axios";
-import ChatLoading from "../ChatLoading";
-import UserListItem from "../UserAvatar/UserListItem";
-import { baseUrl } from "../../config";
-import { Spinner } from "@chakra-ui/spinner";
-import { getSender } from "../../config/ChatLogics";
+} from '@chakra-ui/react';
+import { Tooltip, Menu, MenuButton, MenuDivider } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
+import { FaSearch } from 'react-icons/fa';
+import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { ChatState } from '../../Context/ChatProvider';
+import ProfileModal from './ProfileModal';
+import { useNavigate } from 'react-router-dom';
+import { useDisclosure } from '@chakra-ui/react';
+import axios from 'axios';
+import ChatLoading from '../ChatLoading';
+import UserListItem from '../UserAvatar/UserListItem';
+import { baseUrl } from '../../config';
+import { Spinner } from '@chakra-ui/spinner';
+import { getSender } from '../../config/ChatLogics';
+import bing from '../../audio/bing.mp3';
 
 const SideDrawer = () => {
-  const [search, SetSearch] = useState("");
+  const [search, SetSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
+  const audio = new Audio(bing);
 
   const {
     users,
@@ -45,22 +47,29 @@ const SideDrawer = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log("notification", notification);
+  console.log('notification', notification);
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
+    localStorage.removeItem('userInfo');
+    navigate('/');
   };
   const toast = useToast();
+
+  useEffect(() => {
+    //run this code
+    if (notification.length !== 0) {
+      audio.play();
+    }
+  }, [notification]);
 
   const handleSearch = async () => {
     if (!search) {
       toast({
-        title: "Please enter something to search",
-        status: "warning",
+        title: 'Please enter something to search',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "top-left",
+        position: 'top-left',
       });
       return;
     }
@@ -80,12 +89,12 @@ const SideDrawer = () => {
       setSearchResults(data);
     } catch (err) {
       toast({
-        title: "Error Occured",
-        description: "Failed to Load the Search Results",
-        status: "error",
+        title: 'Error Occured',
+        description: 'Failed to Load the Search Results',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
     }
   };
@@ -96,7 +105,7 @@ const SideDrawer = () => {
 
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${users.token}`,
         },
       };
@@ -114,12 +123,12 @@ const SideDrawer = () => {
       onClose();
     } catch (error) {
       toast({
-        title: "Error Fetching Chat",
+        title: 'Error Fetching Chat',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
     }
   };
@@ -138,7 +147,7 @@ const SideDrawer = () => {
         <Tooltip label="Search Users to Chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <FaSearch />
-            <Text display={{ base: "none", md: "flex" }} px="4">
+            <Text display={{ base: 'none', md: 'flex' }} px="4">
               Search User
             </Text>
           </Button>
@@ -152,22 +161,22 @@ const SideDrawer = () => {
               {notification.length > 0 && (
                 <span
                   style={{
-                    backgroundColor: "red",
-                    borderRadius: "5px",
-                    padding: "4px 8px",
-                    color: "white",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    textAlign: "center",
+                    backgroundColor: 'red',
+                    borderRadius: '5px',
+                    padding: '4px 8px',
+                    color: 'white',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
                   }}
                 >
-                  {notification.length}{" "}
+                  {notification.length}{' '}
                 </span>
               )}
               <BellIcon fontSize="2x1" m="1" />
             </MenuButton>
             <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
+              {!notification.length && 'No New Messages'}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}

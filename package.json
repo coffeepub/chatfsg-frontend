@@ -11,6 +11,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
+    "emoji-picker-react": "^4.6.11",
     "framer-motion": "^10.16.5",
     "lottie-react": "^2.4.0",
     "mongoose": "^8.0.1",

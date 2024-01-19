@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ProfileModal = ({ users, children, loggedInUser }) => {
   //your user id, and this person id
-  console.log('users check this:', users._id, loggedInUser);
+  //console.log('users check this:', users._id, loggedInUser);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEditMode, setIsEditMode] = useState(false);

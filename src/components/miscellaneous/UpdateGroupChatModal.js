@@ -1,6 +1,6 @@
-import React from "react";
-import { useDisclosure } from "@chakra-ui/react";
-import { ViewIcon } from "@chakra-ui/icons";
+import React from 'react';
+import { useDisclosure } from '@chakra-ui/react';
+import { ViewIcon } from '@chakra-ui/icons';
 import {
   Modal,
   ModalOverlay,
@@ -9,25 +9,25 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from "@chakra-ui/react";
-import { IconButton } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { ChatState } from "../../Context/ChatProvider";
-import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
-import { Box } from "@chakra-ui/react";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem";
-import { FormControl } from "@chakra-ui/react";
-import { Input } from "@chakra-ui/react";
-import axios from "axios";
-import { baseUrl } from "../../config";
-import UserListItem from "../UserAvatar/UserListItem";
-import { Spinner } from "@chakra-ui/react";
+} from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
+import { ChatState } from '../../Context/ChatProvider';
+import { useState } from 'react';
+import { useToast } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import UserBadgeItem from '../UserAvatar/UserBadgeItem';
+import { FormControl } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
+import axios from 'axios';
+import { baseUrl } from '../../config';
+import UserListItem from '../UserAvatar/UserListItem';
+import { Spinner } from '@chakra-ui/react';
 
 const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
@@ -56,16 +56,16 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
       setRenameLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: 'Error Occured!',
         description: error.response.data.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setRenameLoading(false);
     }
-    setGroupChatName("");
+    setGroupChatName('');
   };
 
   const handleSearch = async (query) => {
@@ -90,12 +90,12 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
       setSearchResults(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
+        title: 'Error Occured!',
+        description: 'Failed to Load the Search Results',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
       setLoading(false);
     }
@@ -104,21 +104,21 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
   const handleAddUser = async (user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
       toast({
-        title: "User Already in the group",
-        status: "warning",
+        title: 'User Already in the group',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       return;
     }
     if (selectedChat.groupAdmin._id !== users._id) {
       toast({
-        title: "Only Admin can add users",
-        status: "warning",
+        title: 'Only Admin can add users',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       return;
     }
@@ -139,31 +139,31 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: 'Error Occured!',
         description: error.response.data.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
     }
   };
 
   const handleRemove = async (user1) => {
-    console.log("user1", user1);
+    //console.log("user1", user1);
     if (selectedChat.groupAdmin._id !== users._id && user1._id !== users._id) {
       toast({
-        title: "Only Admin can remove users",
-        status: "warning",
+        title: 'Only Admin can remove users',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       return;
     }
     try {
-      console.log("selectedChat", selectedChat);
+      //console.log('selectedChat', selectedChat);
       setLoading(true);
       const config = {
         headers: {
@@ -185,12 +185,12 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Error Occured!",
-        description: "", //error.response.data.message,
-        status: "error",
+        title: 'Error Occured!',
+        description: '', //error.response.data.message,
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
     }
@@ -199,7 +199,7 @@ const UpdateGroupChatModal = ({ fetchAgian, setFetchAgain, fetchMessages }) => {
   return (
     <>
       <IconButton
-        display={{ base: "flex" }}
+        display={{ base: 'flex' }}
         icon={<ViewIcon />}
         onClick={onOpen}
       />

@@ -33,7 +33,7 @@ const GroupChatModal = ({ children }) => {
 
   const { users, chats, setChats } = ChatState();
 
-  console.log('users', users);
+  //console.log('users', users);
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -41,7 +41,7 @@ const GroupChatModal = ({ children }) => {
 
     try {
       setLoading(true);
-      console.log('query', query, users.token);
+      //console.log('query', query, users.token);
       const config = {
         headers: {
           Authorization: `Bearer ${users.token}`,
@@ -51,7 +51,7 @@ const GroupChatModal = ({ children }) => {
         baseUrl + `/api/user?search=${query}`,
         config
       );
-      console.log('data', data);
+      //console.log('data', data);
       setSearchResults(data);
       setLoading(false);
     } catch (error) {
@@ -91,8 +91,9 @@ const GroupChatModal = ({ children }) => {
         },
         config
       );
-      console.log('data', data);
+      //console.log('group chat modal data', data);
       setChats([data, ...chats]);
+
       onClose();
       toast({
         title: 'New Group Chat Created',
