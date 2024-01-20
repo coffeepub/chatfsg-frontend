@@ -220,19 +220,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 */
 
-  const emojiHandler = (e) => {
-    //console.log('inspect', event, emojiObject);
-    console.log('newMessage:', newMessage);
-    let sym = e.unified.split('-');
-    let codesArray = [];
-    sym.forEach((el) => codesArray.push('0x' + el));
-    let emoji = String.fromCodePoint(...codesArray);
-    setNewMessage(newMessage + emoji);
-
-    /*
-    console.log('newMessage:', newMessage);
-    console.log('output:', event.emoji, emojiObject);
-    setNewMessage(`${newMessage} ${event.emoji}`);*/
+  const emojiHandler = (event) => {
+    setNewMessage((prevMess) => {
+      return prevMess + event.emoji;
+    });
   };
 
   return (
