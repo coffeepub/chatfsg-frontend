@@ -22,6 +22,16 @@ import './styles.css';
 import { set } from 'mongoose';
 import bing from '../audio/bing.mp3';
 import EmojiPicker from 'emoji-picker-react';
+import {
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react';
 
 var socket, selectedChatCompare;
 
@@ -226,6 +236,32 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   };
 
+  // modal
+  function BasicUsage() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    return (
+      <>
+        <Button onClick={onOpen}>Select an Emoji</Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>emoji</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <EmojiPicker searchDisabled={true} onEmojiClick={emojiHandler} />
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </>
+    );
+  }
   return (
     <>
       {selectedChat ? (
@@ -304,7 +340,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 value={newMessage}
               />
             </FormControl>
-            <EmojiPicker searchDisabled={true} onEmojiClick={emojiHandler} />
+            <BasicUsage />
           </Box>
         </>
       ) : (
